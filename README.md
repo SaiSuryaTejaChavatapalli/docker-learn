@@ -91,4 +91,11 @@ docker container kill <id>
 docker container rm <id>
 
 docker container rm --help
+
+docker run -it ubuntu ls  // Entry point
+
+docker run -it busybox ping google.com
+
+docker run --help
+
 ```
