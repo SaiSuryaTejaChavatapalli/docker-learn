@@ -108,3 +108,11 @@ docker build -t <name> <context>
 docker build -t my-app .
 
 ```
+
+## Caching in Docker file
+
+⇒ in docker file, whatever the layer you changed, the above layers will be cached and only below layers will run again.
+
+⇒ So make sure you put `npm`install above lines, so it won’t happen every time, It will happen only if `package.json` changes
+
+⇒ Source code change will not make `npm install` again, because there is no need, packages needs to install only when something changes in packages/libraries
