@@ -99,3 +99,12 @@ docker run -it busybox ping google.com
 docker run --help
 
 ```
+
+### Docker build image
+
+```docker
+docker build -t <name> <context>
+
+docker build -t my-app .
+
+```

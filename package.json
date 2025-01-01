@@ -1,0 +1,15 @@
+{
+  "name": "docker-learn",
+  "version": "1.0.0",
+  "description": "![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/54dd01fb-4217-4a69-bf64-0577d50a368f/2f71045b-46c9-404d-8768-c93f2fb57f7b/image.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
