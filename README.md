@@ -130,3 +130,46 @@ docker run -it -p 8000:8000 my-app
 ```docker
 docker run -it -p 3000:8000 -p 3001:9000 -p 3002:8001 my-app
 ```
+
+### Automating port mapping
+
+```docker
+// In docker file
+// ..................
+
+RUN npm install
+
+EXPOSE 8000 3000 4000
+
+CMD ["npm","start"]
+```
+
+```docker
+docker run -it -P my-app
+```
+
+### Remove container after exiting
+
+⇒ Data is also lost here when exiting
+
+```docker
+docker run -it -P -rm my-app
+```
+
+### Detached mode
+
+```docker
+docker run -itd -P -rm my-app
+```
+
+⇒ it will give us an id
+
+⇒ we can use that id to stop that container.
+
+⇒ Container running in background
+
+⇒ we are not stuck to do other things in terminal, because generally there is one terminal in deploying servers
+
+```docker
+docker stop <id>
+```
