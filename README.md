@@ -173,3 +173,33 @@ docker run -itd -P -rm my-app
 ```docker
 docker stop <id>
 ```
+
+## Docker publish
+
+⇒ Create an account in docker hub
+
+⇒ Create a repository
+
+```docker
+docker build -t <unique-image-name>/<name in your docker hub repo name> .
+
+docker login
+
+docker push <image-name>
+```
+
+⇒ then we can pull using docker pull.
+
+### Another way
+
+```docker
+docker tag my-app sst/node-app
+docker push sst/node-app
+```
+
+## Docker tag
+
+```docker
+docker tag my-app sst/node-app:v1
+docker push sst/node-app:v1
+```
