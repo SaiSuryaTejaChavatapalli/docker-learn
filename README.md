@@ -116,3 +116,17 @@ docker build -t my-app .
 ⇒ So make sure you put `npm`install above lines, so it won’t happen every time, It will happen only if `package.json` changes
 
 ⇒ Source code change will not make `npm install` again, because there is no need, packages needs to install only when something changes in packages/libraries
+
+## Port Mapping
+
+```docker
+docker run -it -p 8000:8000 my-app
+```
+
+⇒ Port in container is private, we need to map with external computer port, then only we can access those app.
+
+### Multiple port mapping
+
+```docker
+docker run -it -p 3000:8000 -p 3001:9000 -p 3002:8001 my-app
+```
