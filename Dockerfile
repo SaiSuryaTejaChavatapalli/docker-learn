@@ -1,22 +1,43 @@
-# Take Base Image as Ubuntu
-# FROM ubuntu // Ubuntu is bloated
+#  Multi Stage Build
+FROM node:20-alpine3.19 as base
 
 
-#Node installed on alpine machine
+# Stage 1: Build Stuff
+FROM base as builder
 
-FROM node:22.12-alpine3.21  
+WORKDIR /home/build
 
-WORKDIR /home/app/
-
-# Copying the source code to docker image
-COPY package-lock.json package-lock.json
-COPY package.json package.json
-
-
-COPY index.js index.js
+COPY package*.json .
+COPY tsconfig.json .
 
 RUN npm install
 
-EXPOSE 8000 3000 4000
+COPY src/ src/
 
-CMD ["npm","start"]
+RUN npm run build
+
+# Stage 2: Runner
+FROM base as runner
+
+WORKDIR /home/app
+
+COPY --from=builder /home/build/dist dist/
+COPY --from=builder /home/build/package*.json .
+
+RUN npm install --omit=dev
+# We should never run CMD ["npm","start"] as admin. wecan create users in docker image using below commands
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nodejs
+# now app is run as a user, user doesn't have root permissions
+# if we run as an root user, there are security vunerelbilties
+
+USER nodejs
+
+
+EXPOSE 8000
+# Environemnt variable
+# docker run -it -p 3000:3000  -e PORT=3000 ts-node
+# docker run -it -p 3000:3000  --envfile=./.env  ts-node
+ENV PORT=8000
+
+CMD [ "npm", "start" ]

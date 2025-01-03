@@ -271,3 +271,41 @@ CMD [ "npm", "start" ]
 ⇒ Saves memory size (Optimization Docker file)
 
 ⇒ dev dependencies(TYPESCRIPT, types) are not needed in production, so it is redundant to have those dependencies
+
+### Manually build docker file
+
+⇒ By default it takes `Dockerfile` only, if we want particular file to build
+
+```docker
+docker build -t ts-app-old -f Dockerfile.old .
+```
+
+## Secure User Management
+
+⇒ We should never run CMD ["npm","start"] as admin, by default it runs as a admin. we can create users in docker image using below commands
+
+```docker
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nodejs
+// Creates a group and adds a user nodejs
+USER nodejs
+// login as user
+```
+
+⇒ now app is run as a user, user doesn't have root permissions
+⇒ if we run as an root user, there are security vulnerabilities
+
+## Env Variables in Docker Image
+
+⇒ -e tag, we can give env variables, if there are any env variable use in code
+
+```docker
+ENV PORT=8000
+```
+
+```docker
+# Environemnt variable
+ docker run -it -p 3000:3000  -e PORT=3000 ts-node
+ docker run -it -p 3000:3000  --envfile=./.env  ts-node
+```
