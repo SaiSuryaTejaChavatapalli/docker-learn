@@ -207,6 +207,25 @@ docker push sst/node-app:v1
 ## Multi Stage Builds
 
 ```docker
+// OLD File
+FROM node:20-alpine3.19
+
+WORKDIR /home/app
+
+COPY package*.json .
+COPY tsconfig.json .
+
+RUN npm install
+
+COPY src/ src/
+
+RUN npm run build
+
+CMD [ "npm", "start" ]
+```
+
+```docker
+// Multi Stage Build
 FROM node:20-alpine3.19 as base
 
 # Stage 1: Build Stuff
@@ -245,6 +264,10 @@ CMD [ "npm", "start" ]
 
 ```
 
+⇒ After the build we don’t need files in source directory.
+
 ⇒ First stage will delete after completed
 
-⇒ Saves memory size (Optimization)
+⇒ Saves memory size (Optimization Docker file)
+
+⇒ dev dependencies(TYPESCRIPT, types) are not needed in production, so it is redundant to have those dependencies
