@@ -309,6 +309,7 @@ ENV PORT=8000
  docker run -it -p 3000:3000  -e PORT=3000 ts-node
  docker run -it -p 3000:3000  --envfile=./.env  ts-node
 ```
+
 # Docker Bridge Mode Networking
 
 ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/54dd01fb-4217-4a69-bf64-0577d50a368f/03a83ece-878b-4417-961b-c2c659849ae1/image.png)
@@ -338,3 +339,55 @@ docker exec container_two ping 172.17.0.2
 ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/54dd01fb-4217-4a69-bf64-0577d50a368f/e9f891d3-86a6-4ba7-b1a1-22443970310a/image.png)
 
 ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/54dd01fb-4217-4a69-bf64-0577d50a368f/f79f5a4e-e6af-4a1d-bcdc-c6d22dcc63e1/image.png)
+
+# Custom Bridge networking
+
+### Create a network bridge
+
+```sql
+docker network create milkyway
+```
+
+```sql
+docker run -itd --network=milkyway --rm --name=spiderman busybox
+```
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/54dd01fb-4217-4a69-bf64-0577d50a368f/fc91722b-fbac-4657-9b37-344bae737d7a/image.png)
+
+→ spiderman container from `milkyway` bridge can’t talk to the `container_two` container in default bridge network, because they are in isolated environment.
+
+→ But they can talk to other containers under same network.
+
+→ Containers under custom network can ping using names also, ip address should not need to know, it will automatically figure out because of automatic DNS resolution
+
+⇒ On the fly you can attach the containers
+
+```sql
+docker network connect milkyway container_two
+```
+
+```sql
+docker inspect milkyway
+```
+
+Now we added container_two in milkyway network bridge, spiderman can ping container_two, because they are both under same network.
+
+```sql
+docker exec spiderman ping container_two
+```
+
+⇒ Similarly, we can disconnect container from custom network bridge
+
+```sql
+docker network disconnect milkyway container_two
+```
+
+⇒ In production we should always use user-defined network bridge.
+
+### Remove custom network bridge
+
+```sql
+docker network rm milkyway
+```
+
+.
