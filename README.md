@@ -309,3 +309,32 @@ ENV PORT=8000
  docker run -it -p 3000:3000  -e PORT=3000 ts-node
  docker run -it -p 3000:3000  --envfile=./.env  ts-node
 ```
+# Docker Bridge Mode Networking
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/54dd01fb-4217-4a69-bf64-0577d50a368f/03a83ece-878b-4417-961b-c2c659849ae1/image.png)
+
+⇒ List docker networks
+
+```sql
+docker network ls
+```
+
+⇒ Default network is bridge
+
+```sql
+docker run -itd --rm --name=my-container busybox
+```
+
+```sql
+docker network inspect bridge
+```
+
+⇒ from `container_two` pinging my-container
+
+```sql
+docker exec container_two ping 172.17.0.2
+```
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/54dd01fb-4217-4a69-bf64-0577d50a368f/e9f891d3-86a6-4ba7-b1a1-22443970310a/image.png)
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/54dd01fb-4217-4a69-bf64-0577d50a368f/f79f5a4e-e6af-4a1d-bcdc-c6d22dcc63e1/image.png)
