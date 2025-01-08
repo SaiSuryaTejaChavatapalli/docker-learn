@@ -390,4 +390,14 @@ docker network disconnect milkyway container_two
 docker network rm milkyway
 ```
 
-.
+# Other modes on networking
+
+⇒ Docker's networking subsystem is pluggable, using drivers. Several drivers exist by default, and provide core networking functionality:
+
+- `bridge`: The default network driver. If you don't specify a driver, this is the type of network you are creating. Bridge networks are commonly used when your application runs in a container that needs to communicate with other containers on the same host. See [Bridge network driver](https://docs.docker.com/engine/network/drivers/bridge/).
+- `host`: Remove network isolation between the container and the Docker host, and use the host's networking directly. See [Host network driver](https://docs.docker.com/engine/network/drivers/host/).
+- `overlay`: Overlay networks connect multiple Docker daemons together and enable Swarm services and containers to communicate across nodes. This strategy removes the need to do OS-level routing. See [Overlay network driver](https://docs.docker.com/engine/network/drivers/overlay/).
+- `ipvlan`: IPvlan networks give users total control over both IPv4 and IPv6 addressing. The VLAN driver builds on top of that in giving operators complete control of layer 2 VLAN tagging and even IPvlan L3 routing for users interested in underlay network integration. See [IPvlan network driver](https://docs.docker.com/engine/network/drivers/ipvlan/).
+- `macvlan`: Macvlan networks allow you to assign a MAC address to a container, making it appear as a physical device on your network. The Docker daemon routes traffic to containers by their MAC addresses. Using the `macvlan` driver is sometimes the best choice when dealing with legacy applications that expect to be directly connected to the physical network, rather than routed through the Docker host's network stack. See [Macvlan network driver](https://docs.docker.com/engine/network/drivers/macvlan/).
+- `none`: Completely isolate a container from the host and other containers. `none` is not available for Swarm services. See [None network driver](https://docs.docker.com/engine/network/drivers/none/).
+- [Network plugins](https://docs.docker.com/engine/extend/plugins_network/): You can install and use third-party network plugins with Docker.
