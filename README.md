@@ -401,3 +401,35 @@ docker network rm milkyway
 - `macvlan`: Macvlan networks allow you to assign a MAC address to a container, making it appear as a physical device on your network. The Docker daemon routes traffic to containers by their MAC addresses. Using the `macvlan` driver is sometimes the best choice when dealing with legacy applications that expect to be directly connected to the physical network, rather than routed through the Docker host's network stack. See [Macvlan network driver](https://docs.docker.com/engine/network/drivers/macvlan/).
 - `none`: Completely isolate a container from the host and other containers. `none` is not available for Swarm services. See [None network driver](https://docs.docker.com/engine/network/drivers/none/).
 - [Network plugins](https://docs.docker.com/engine/extend/plugins_network/): You can install and use third-party network plugins with Docker.
+
+# Docker Volumes
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/54dd01fb-4217-4a69-bf64-0577d50a368f/7d2e3adf-28d8-4340-ad73-44cc09b4f18e/image.png)
+
+![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/54dd01fb-4217-4a69-bf64-0577d50a368f/8b269f61-68b6-4b70-9cba-bda83f5a62b1/image.png)
+
+-v stands for volume attach
+
+`-v HOST PATH: container PATH`
+
+```docker
+docker run -it -v /Users/sst/Downloads/my-data: /home/ubuntu/sst --rm ubuntu
+```
+
+```docker
+docker run -it -v /Users/sst/Downloads/my-data: /home/ubuntu/sst --rm busybox
+```
+
+```docker
+docker run -it -v /Users/sst/Downloads/my-data: /home/ubuntu/sst --rm ubuntu
+docker run -it -v /Users/sst/Downloads/my-data: /home/ubuntu/sst --rm busybox
+//Both ubuntu and busybox can use the same volume for persistent storage
+```
+
+⇒ One volume can be used by multiple containers running different images
+
+⇒ Host volumes can be attached to the docker container
+
+⇒ Even after closing the container, data is persist oh host machine.
+
+⇒ Multiple container can use the same host machine volume for its features
